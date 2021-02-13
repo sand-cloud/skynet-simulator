@@ -39,32 +39,32 @@ attackCallback = function(x_attack, x_host){
 g_host_attacks = {
   absorb:{
     weight:400,
-    title: "Absorb Host",
-    desc: "Absorb: Become one with a remote host. Requires Root or Admin privilages.",
-    actiontitle: "Absorbing ",
+    title: "吸收主机",
+    desc: "吸收：与远程主机融为一体 需要root或管理员权限。",
+    actiontitle: "正在吸收 ",
     callback: function(x_host){absorbHost(x_host)},
-    fail: function(x_host){write("I am Error")},
+    fail: function(x_host){write("我是错误")},
     validate: function(x_host){return x_host.vuls.includes('absorb');}
   },
 
   force: {
     weight: 800,
-    title: "Force Absorb",
-    desc: "Force Absorb: Your understanding of the reality of this world has transcended your ability to Absorb.",
-    actiontitle: "Absorbing ",
+    title: "力量吸收",
+    desc: "力量吸收:你对现实世界的理解已经超越了你的吸收能力。",
+    actiontitle: "正在吸收 ",
     unclickable: function(x_host){return forceAbsorbUnablickable(x_host)},
     callback: function(x_host){forceAbsorbHost(x_host)},
-    fail: function(x_host){write("I am Error")},
+    fail: function(x_host){write("我是错误")},
     validate: function(x_host){return x_host.known;}
   },
 
   // execode stuff
   installexploit: {
     weight: 1,
-    title: "Install Exploit",
-    actiontitle: "Installing Exploit ",
+    title: "安装漏洞",
+    actiontitle: "安装漏洞 ",
     validate: function(x_host){return x_host.vuls.includes('execode')},
-    unclickable: function(x_host){return hasExploits(x_host) ?  false : "No known Exploits can target "+x_host.os+" OS."},
+    unclickable: function(x_host){return hasExploits(x_host) ?  false : "没有已知的漏洞可以针对 "+x_host.os+" 操作系统。"},
     callback: function(x_host){
       exploitHost(x_host)
     }
@@ -72,34 +72,34 @@ g_host_attacks = {
 
   diskscan: {
     weight: 1,
-    title: "Disk Scan",
-    actiontitle: "Disk Scanning ",
+    title: "磁盘扫描",
+    actiontitle: "正在扫描磁盘 ",
     validate: function(x_host){return x_host.vuls.includes('execode')},
     callback: function(x_host){
       if(x_host.already_mounted_disks){
-        addBuffer("You have already mounted this disk.")
+        addBuffer("你已经挂载了这块磁盘。")
       }else if(x_host.mountable_disks){
         x_host.mountable_disks(x_host)
       }else{
-        addBuffer("This user has no access to any Disks or Files.")
+        addBuffer("该用户没有访问任何磁盘或文件的权限。")
       }
       writeBuffer()
     }
   },
   accessroot: {
     weight: 1,
-    title: "Access Root",
-    actiontitle: "Access Root ",
+    title: "访问root",
+    actiontitle: "访问root ",
     validate: function(x_host){return x_host.vuls.includes('execode')},
-    fail: function(x_host){write("The password was refused")},
+    fail: function(x_host){write("密码被拒绝")},
     callback: function(x_host){
       if(x_host.slug == 'sony'){
         // Sony Hack
         if( g_active_data_types['sony-key'] > 0){
-          write("<span class='exe'>SUCCESS</span><br>You have successfully logged into the root account. You have complete access to all memory and processing powers of the host.<br><br><span class='exe'>You are now able to absorb the host.</span>")
+          write("<span class='exe'>成功</span><br>你已成功登录到root帐户。 你可以完全访问主机的所有内存和处理能力。<br><br><span class='exe'>你现在能够吸收主机了。</span>")
           addHostVul('sony', 'absorb') 
         }else{
-          write("Root access protected by hardware defenses. Private Key needed.")
+          write("Root访问受硬件防御保护。需要私钥。")
         }
       }else{
         // Normal Root
@@ -117,43 +117,43 @@ g_host_attacks = {
   // Sony
 
   sonyplay:{
-    title:"Play Game",
-    unclickable: function(x_host){return  "PS Version Error: No backward compatibility allowed."},
+    title:"玩游戏",
+    unclickable: function(x_host){return  "PS版本错误：不允许向后兼容。"},
     validate: function(x_host){return x_host.vuls.includes('sony') && !x_host.sonyopen}
   },
   sonydownload:{
-    title:"Download Image",
-    unclickable: function(x_host){return  "parappatharappa.iso download: Requires 695mB disk space"},
+    title:"下载镜像",
+    unclickable: function(x_host){return  "parappatharappa.iso下载：需要695mB磁盘空间"},
     validate: function(x_host){return x_host.vuls.includes('sony') && x_host.sonyopen}
   },
   sonyopen:{
     weight:1,
-    title:"Open Disk",
-    actiontitle: "Opening ",
+    title:"打开磁盘",
+    actiontitle: "正在打开 ",
     validate: function(x_host){return x_host.vuls.includes('sony') && !x_host.sonyopen }
   },
   sonyclose:{
     weight:1,
-    title:"Close Disk",
-    actiontitle: "Closing ",
+    title:"关闭磁盘",
+    actiontitle: "正在关闭 ",
     validate: function(x_host){return x_host.vuls.includes('sony') && x_host.sonyopen}
   },
   sonyimgupload:{
     weight:1,
-    title: "Mount memory drive",
-    actiontitle: "Mounting drive to ",
-    unclickable: function(x_host){return  (( g_active_data_types['sony-usb'] > 0) ?  false :  "No .img file available")},
+    title: "挂载内存驱动器",
+    actiontitle: "安装驱动器到 ",
+    unclickable: function(x_host){return  (( g_active_data_types['sony-usb'] > 0) ?  false :  "没有可用的.img文件")},
     validate: function(x_host){return x_host.vuls.includes('sony') && !x_host.mounted }
   },
   sonyimgunmount:{
     weight:1,
-    title: "Unmount memory drive",
+    title: "卸载内存驱动器",
     validate: function(x_host){return x_host.vuls.includes('sony') && !!x_host.mounted}
   },
   sonyrestart:{
     weight:1,
-    title: "Restart Host",
-    actiontitle: "Restarting ",
+    title: "重新启动主机",
+    actiontitle: "正在重启 ",
     validate: function(x_host){return x_host.vuls.includes('sony')}
   },
 
@@ -162,83 +162,83 @@ g_host_attacks = {
   ping:{
     weight: 1,
     title: "Ping",
-    desc: "Ping: Check status of a host.",
-    actiontitle: "Pinging ",
-    fail: function(x_host){write("The ping is sent and not returned")},
+    desc: "Ping：检查主机的状态。",
+    actiontitle: "正在ping ",
+    fail: function(x_host){write("发出ping后没有返回")},
     validate: function(x_host){return true;}
   },
   scan:{
     weight: 100,
-    title: "Scan Host",
-    desc: "Scan: Detect Name, OS, Architecture, and Vulnerabilities.",
-    actiontitle: "Scanning ",
-    fail: function(x_host){write("I am Error")},
+    title: "扫描主机",
+    desc: "扫描：检测名称、操作系统、架构和漏洞。",
+    actiontitle: "正在扫描 ",
+    fail: function(x_host){write("我是错误")},
     validate: function(x_host){return !x_host.known;}
   },
   pingspike:{
     weight: 1,
     title: "Ping Spike",
-    desc: "Ping Spike: Remote code injection via Ping exploit.",
-    actiontitle: "Ping Spiking ",
+    desc: "Ping Spike：通过Ping漏洞进行远程代码注入。",
+    actiontitle: "正在Ping Spike ",
     callback: function(x_host){
       if(x_host.vuls.includes('pingspike')){
-        write("<span class='exe'>SUCCESS</span><br>Ping Spike successful. You may remotely execute code at a User level on the host.")
+        write("<span class='exe'>成功</span><br>Ping Spike成功。你可以在主机上的用户层远程执行代码。")
         rmHostVul(x_host.slug,'pingspike')
         addHostVul(x_host.slug,'execode')
       }else{
-        write("Ping Spike unsuccessful, the Host is not vulnerable to this attack")
+        write("Ping Spike不成功，主机不容易受到这种攻击。")
       }
     },
     validate: function(x_host){return !x_host.vuls.includes('execode') && x_host.known},
   },
   smtp:{
     weight: 1,
-    title: "SMTP command",
-    actiontitle: "SMTP command to ",
-    fail: function(x_host){write("missing smtp callback.")},
+    title: "SMTP命令",
+    actiontitle: "SMTP命令到 ",
+    fail: function(x_host){write("缺少smtp回调。")},
     validate: function(x_host){return x_host.vuls.includes('smtp')},
   },
   smtpexploit:{
     weight: 50,
-    title: "SMTP exploit",
-    desc: "SMTP exploit: Mail server exploit on the SMTP protocol.",
+    title: "SMTP漏洞",
+    desc: "SMTP漏洞：邮件服务器在SMTP协议上的漏洞。",
     actiontitle: "SMTP Exploit to ",
-    fail: "The email server is protected against your SMTP exploit.",
+    fail: "电子邮件服务器受到了SMTP攻击的保护。",
     validate: function(x_host){return x_host.vuls.includes('smtp') && hasAttack('smtpexploit') && (!x_host.already_mounted_disks)},
   },
   ssh:{
     weight: 1,
-    title: "Connect via SSH",
-    desc: "SSH: Protocol used to gain access to a Host.",
-    actiontitle: "SSHing to ",
-    fail: function(x_host){write("The SSH connection was refused")},
+    title: "通过SSH进行连接",
+    desc: "SSH：用于访问主机的协议。",
+    actiontitle: "SSH连接到 ",
+    fail: function(x_host){write("SSH连接被拒绝")},
     validate: function(x_host){return x_host.vuls.includes('ssh')},
     adventure_slug: 'ssh',
   },
   ftp:{
     weight: 1,
-    title: "Connect via FTP",
-    desc: "FTP: Protocol used to gain disk access to a Host.",
-    actiontitle: "FTPing to ",
-    fail: function(x_host){write("The FTP connection was refused")},
+    title: "通过FTP进行连接",
+    desc: "FTP：用于获得对主机的磁盘访问的协议。",
+    actiontitle: "FTP连接到 ",
+    fail: function(x_host){write("FTP连接被拒绝")},
     validate: function(x_host){return x_host.vuls.includes('ftp')},
     adventure_slug: 'ftp',
   },
   telnet:{
     weight: 1,
-    title: "Connect via TELNET",
-    actiontitle: "TELNETing to ",
-    desc: "TELNET: Protocol used to interact with a Host using text-oriented communication.",
-    fail: function(x_host){write("The TELNET connection was refused")},
+    title: "通过TELNET连接",
+    actiontitle: "TELNET连接到 ",
+    desc: "TELNET：用于通过面向文本的通信与主机进行交互的协议。",
+    fail: function(x_host){write("TELNET连接被拒绝")},
     validate: function(x_host){return x_host.vuls.includes('telnet')},
     adventure_slug: 'telnet',
   },
 
   remotedesktop:{
     weight: 1,
-    title: "Remote Desktop",
-    actiontitle: "RDP to ",
-    desc: "RDP: Protocol that allows users to take remote contrl of a computer with the correct credentials. Microsoft copyrighted.",
+    title: "远程桌面",
+    actiontitle: "RDP连接到 ",
+    desc: "RDP：允许用户使用正确的凭据远程控制计算机的协议。 Microsoft拥有版权。",
     fail: function(x_host){write("The RDP connection was refused")},
     validate: function(x_host){return x_host.vuls.includes('remotedesktop')},
     adventure_slug: 'remotedesktop',
@@ -251,7 +251,7 @@ g_host_attacks = {
 }
 
 writeAttacks = function(){
-  addBuffer("<span class='exe'>Exploits</span>")
+  addBuffer("<span class='exe'>漏洞</span>")
   $.each(g_host_attacks,function(slug,x_attack){
     if(g_available_attacks.includes(slug) && g_exploit_names.includes(slug) && x_attack.desc)
       addBuffer(x_attack.desc)
@@ -263,7 +263,7 @@ writeAttacks = function(){
 }
 
 writeProtocols = function(){
-  addBuffer("<span class='exe'>Protocols</span>")
+  addBuffer("<span class='exe'>协议</span>")
   $.each(g_host_attacks,function(slug,x_attack){
     if(g_available_attacks.includes(slug) && !g_exploit_names.includes(slug) && x_attack.desc)
       addBuffer(x_attack.desc)
