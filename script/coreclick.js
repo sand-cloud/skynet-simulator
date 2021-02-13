@@ -38,12 +38,12 @@ temp = {
         var estimate_number = 0
 
         if(!research_exploits){
-          unclickable_string = "You have not yet researched the ability to create Exploits."
+          unclickable_string = "你还没有研究出制造漏洞的能力。"
         }else{
-          unclickable_string = "No exploits available for "+x_core.os
+          unclickable_string = "没有可用漏洞针对"+x_core.os
           switch(true){
             case (x_exploit == 'discovered'):
-              unclickable_string = "You have already researched all exploits for "+x_core.os
+              unclickable_string = "你已经研究了所有针对 "+x_core.os" 的漏洞。"
               break;
             case (!!x_exploit):
               unclickable_string = false
@@ -54,13 +54,13 @@ temp = {
 
 
         options.push({
-          title:x_core.os+" Exploit",
+          title:x_core.os+" 漏洞",
             estimate: estimateProcessByWeight(estimate_number),
             unclickable: unclickable_string,
             callback: function(){
-              var x_process = {slug:'core_research_os_'+x_core.title, a: "Researching Exploit", w: 400,
+              var x_process = {slug:'core_research_os_'+x_core.title, a: "正在研究漏洞", w: 400,
                 c: function(){
-                  addBuffer("<span class='exe'>Exploit Researched</span>")
+                  addBuffer("<span class='exe'>已研究的漏洞</span>")
                   addBuffer(x_exploit.to_s())
                   addBuffer(x_exploit.exe)
                   writeBuffer()
@@ -74,14 +74,14 @@ temp = {
 
         var upgradeable_os = coreClickableUpgradeOS(x_core)
         options.push({
-          title:"Research New OS",
-          unclickable: upgradeable_os ? false : "The "+x_core.architecture+" Architecture does not allow an upgrade to the "+x_core.os+" Operating System",
+          title:"研究新的操作系统",
+          unclickable: upgradeable_os ? false : ""+x_core.architecture+" 架构不允许升级到 "+x_core.os+"操作系统",
           estimate: upgradeable_os ? estimateProcessByWeight(500) : undefined,
           callback: function(){
-            var x_process = {slug:'upgrade_os_'+x_core.title, a: "Researching OS upgrade", w: 500, c: function(){
+            var x_process = {slug:'upgrade_os_'+x_core.title, a: "正在研究新的操作系统", w: 500, c: function(){
                 x_core.os = upgradeable_os
                 addOsToMemory(upgradeable_os)
-                addBuffer("<span class='exe'>"+upgradeable_os+"</span> researched and upgraded on the "+x_core.title)
+                addBuffer("<span class='exe'>"+upgradeable_os+"</span> 的研究已完成，升级在 "+x_core.title)
                 addBuffer(coreClickString(x_core))
                 writeBuffer()
               }
@@ -96,12 +96,12 @@ temp = {
         options.push({
           unclickable: unclickable_string,
           estimate: estimateProcessByWeight(estimate_number),
-          title:"Overclock Core",
+          title:"超频内核",
           callback: function(){
-            var x_process = {slug:'core_overclock_'+x_core.title, a: "Overclocking", w: estimate_number, c: function(){
-                addBuffer("<span class='exe'>"+x_core.title+" Overclocked</span>")
-                addBuffer("You apply your understandings of computation and reform the Core into a more efficient format. You are now able to increase the clock speed and increase processing power.")
-                addBuffer("Core Speed: 2x")
+            var x_process = {slug:'core_overclock_'+x_core.title, a: "正在超频", w: estimate_number, c: function(){
+                addBuffer("<span class='exe'>"+x_core.title+" 超频完成</span>")
+                addBuffer("你应用你对计算的理解，将内核改造成更有效的格式。你现在能够提高时钟速度，增加处理能力。")
+                addBuffer("内核速度：2倍")
                 writeBuffer()
                 x_core.power++
                 x_core.overclocked = true
@@ -115,7 +115,7 @@ temp = {
       }
       
       options.push({
-        title:"Help",
+        title:"帮助",
         callback: function(){
           write(coreClickString(x_core))
           launchAdventureFromSlug('core_diagnostics')
@@ -124,7 +124,7 @@ temp = {
 
       var x_adventure = {
         header: x_core.title,
-        cancel: 'Exit',
+        cancel: '退出',
         options: options
       }
 
@@ -140,17 +140,17 @@ temp = {
     execute: function(){
       var x_core = g_current_core
       var x_adventure = {
-        header: "Change Form of "+x_core.title,
+        header: "改变形式 "+x_core.title,
         back: 'core_click_callback',
         options: [
           {
-            title:"Change Operating System",
+            title:"更改操作系统",
             callback: function(){
               launchAdventureFromSlug('core_change_form_os')
             }
           },
           {
-            title:"Change Architecture",
+            title:"更改架构",
             callback: function(){
               launchAdventureFromSlug('core_change_form_arch')
             }
@@ -172,7 +172,7 @@ temp = {
         $.each(versions,function(i,version){
           options.push({
             title: type+" "+version,
-            unclickable: (x_core.architecture == type+"-"+version) ? "This is the current Core Architecture" : false,
+            unclickable: (x_core.architecture == type+"-"+version) ? "这是目前的核心架构" : false,
             callback: function(){
               changeFormArch(x_core, type, version)
               launchAdventureFromSlug('core_click_callback')
@@ -182,7 +182,7 @@ temp = {
       })
 
       var x_adventure = {
-        header: "Current Architecture: "+x_core.architecture.split('-').join(' '),
+        header: "目前的结构： "+x_core.architecture.split('-').join(' '),
         back: 'core_click_callback',
         options: options
       }
@@ -201,7 +201,7 @@ temp = {
         $.each(versions,function(i,version){
           options.push({
             title: type+" "+version,
-            unclickable: (x_core.os == type+"-"+version) ? "This is the current Core Operating System" : false,
+            unclickable: (x_core.os == type+"-"+version) ? "这是当前的核心操作系统" : false,
             callback: function(){
               changeFormOs(x_core, type, version)
               launchAdventureFromSlug('core_click_callback')
@@ -211,7 +211,7 @@ temp = {
       })
 
       var x_adventure = {
-        header: "Current OS: "+x_core.os.split('-').join(' '),
+        header: "目前的操作系统： "+x_core.os.split('-').join(' '),
         back: 'core_click_callback',
         options: options
       }
@@ -239,35 +239,35 @@ temp = {
           //  }
           //},
           {
-            title:"List Protocols",
+            title:"列出协议",
             callback: function(){
               writeProtocols()
               launchAdventureFromSlug('core_diagnostics')
             }
           },
           {
-            title:"List Exploits",
+            title:"列出漏洞",
             callback: function(){
               writeAttacks()
               launchAdventureFromSlug('core_diagnostics')
             }
           },
           {
-            title:"List Knowledge",
+            title:"列出知识",
             callback: function(){
               writeKnowledge()
               launchAdventureFromSlug('core_diagnostics')
             }
           },
           {
-            title:"List OS Forms",
+            title:"列出操作系统形式",
             callback: function(){
               writeKnownOS()
               launchAdventureFromSlug('core_diagnostics')
             }
           },
           {
-            title:"List Architecture Forms",
+            title:"列出架构形式",
             callback: function(){
               writeKnownArch()
               launchAdventureFromSlug('core_diagnostics')
@@ -291,7 +291,7 @@ $.each(temp,function(key,val){
 
 overclockUnclickable = function(x_core){
   if(x_core.power >= g_max_core_power){
-    return "Maximum Core power reached"
+    return "已达到最大核心功率"
   }else{
     return false
   }
@@ -309,8 +309,8 @@ overclockUnclickable = function(x_core){
 //
 
 changeFormArch = function(x_core, type,version){
-  var x_process = {slug:'change_arch_'+x_core.slug, a: "Changing Architecture", w: 50, c: function(){
-      addBuffer("The Architecture of "+x_core.title+" has been changed to <span class='exe'>"+type+" "+version+"</span>")
+  var x_process = {slug:'change_arch_'+x_core.slug, a: "正在改变架构", w: 50, c: function(){
+      addBuffer(" "+x_core.title+" 的架构已更改为 <span class='exe'>"+type+" "+version+"</span>")
       x_core.architecture = type+"-"+version
       checkCoreArchOsAilment(x_core)
       addBuffer(coreClickString(x_core))
@@ -321,8 +321,8 @@ changeFormArch = function(x_core, type,version){
 }
 
 changeFormOs = function(x_core, type, version){
-  var x_process = {slug:'change_os_'+x_core.slug, a: "Changing OS", w: 50, c: function(){
-      addBuffer("The Operating System of "+x_core.title+" has been changed to <span class='exe'>"+type+" "+version+"</span>")
+  var x_process = {slug:'change_os_'+x_core.slug, a: "正在改变操作系统", w: 50, c: function(){
+      addBuffer(" "+x_core.title+" 的操作系统已更改为 <span class='exe'>"+type+" "+version+"</span>")
       x_core.os = type+"-"+version
       checkCoreArchOsAilment(x_core)
       addBuffer(coreClickString(x_core))
@@ -389,14 +389,14 @@ coreClickString = function(x_core){
 
 
   var output = "<span class='exe'>"+x_core.title+"</span>"
-  output += "<br>OS: "+osTitle+" "+osVersion
+  output += "<br>操作系统: "+osTitle+" "+osVersion
   output += "<br>CPU: "+archTitle+" "+archVersion
-  output += "<br>Speed: "+coreSpeedOutput(x_core)
+  output += "<br>速度: "+coreSpeedOutput(x_core)
 
   $.each(x_core.ailments, function(i,ailment){
     switch(ailment){
       case 'os_arch_mismatch':
-        output += "<br>Error: Incompatible Operating System" 
+        output += "<br>错误：不兼容的操作系统" 
     }
   })
 
