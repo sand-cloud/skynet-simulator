@@ -51,7 +51,7 @@ g_adventures = {
     execute: function(){
       var x_host = g_current_host
       var x_adventure = {
-        header: x_host.current_userpw_method+': enter username:',
+        header: x_host.current_userpw_method+': 输入用户名：',
         cancel: false,
         options: [
           {
@@ -69,7 +69,7 @@ g_adventures = {
           },{
             title:"guest",
             callback: function(){
-              x_host.current_userpw_user = 'guest'
+              x_host.current_userpw_user = '访客'
               launchAdventureFromSlug('userpw_pw')
             }
           }
@@ -108,7 +108,7 @@ g_adventures = {
         }
       })
       var x_adventure = {
-        header: x_host.current_userpw_method+': enter password:',
+        header: x_host.current_userpw_method+': 输入密码：',
         options: options
       }
       setAdventure(x_adventure)
@@ -136,18 +136,18 @@ g_adventures = {
 
   template: {
     execute: function(){
-      write("Execute called")
+      write("执行称为")
       var x_adventure = {
-        header:'Header:',
-        cancel: "Cancel",
+        header:'标题：',
+        cancel: "取消",
         back: 'template',
         options: [
           {
-            title:"Options Title",
+            title:"选项标题",
             estimate:"estimate",
-            unclickable: (true) ? "This is unclickable" : false,
+            unclickable: (true) ? "这是不可点击的" : false,
             callback: function(){
-              write("Callback called")
+              write("回叫")
               endAdventure()
             }
           },
